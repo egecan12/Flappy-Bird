@@ -8,10 +8,21 @@ function jump() {
 }
 
 var pipe = [];
-pipe[0] = {
+var distance = 0;
 
-    x: 200,
-    y: 300
+
+for (var u = 0; u < 100; u++) {
+    var pos = (Math.random() * 700);
+    pipe[u] = {
+        Sx: 300 + distance,
+        Sy: pos + 200,
+        Nx: 300 + distance,
+        Ny: pos - 200
+    }
+
+
+    distance += 300;
+
 }
 
 
@@ -33,7 +44,7 @@ bird.src = "redbird.png";
 fg.src = "https://github.com/sourabhv/FlapPyBird/blob/master/assets/sprites/base.png?raw=true"
 
 var gap = 85;
-var constant = southPipe.height - gap;
+var constant = southPipe.height + gap;
 
 //bird position
 var bX = 0;
@@ -48,15 +59,16 @@ function draw() {
 
 
     for (var i = 0; i < pipe.length; i++) {
-      
 
-        ctx.drawImage(northPipe, pipe[i].x, pipe[i].y)
 
-        ctx.drawImage(southPipe, pipe[i].x, pipe[i].y+constant)
+        ctx.drawImage(northPipe, pipe[i].Nx, pipe[i].Ny)
 
-        pipe[i].x--;
+        ctx.drawImage(southPipe, pipe[i].Sx, pipe[i].Sy)
 
-        if(pipe[i].x == 112) {
+        pipe[i].Nx--;
+        pipe[i].Sx--;
+
+        if (pipe[i].Nx == 112) {
             pipe.push({
                 x: cvs.width,
                 y: Math.floor(Math.random().southPipe)
@@ -65,6 +77,9 @@ function draw() {
         }
 
     }
+
+
+
     ctx.drawImage(bird, bX, bY);
     ctx.drawImage(fg, 0, cvs.height - fg.height);
     bY += gravity;
